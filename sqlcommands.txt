@@ -1,0 +1,60 @@
+mysql> create database library;
+Query OK, 1 row affected (0.16 sec)
+
+mysql> drop database library;
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> create database library;
+Query OK, 1 row affected (0.15 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| Bank               |
+| EXPERIMENT         |
+| college            |
+| information_schema |
+| lib                |
+| library            |
+| library_management |
+| mysql              |
+| performance_schema |
+| sys                |
+| test               |
++--------------------+
+11 rows in set (0.09 sec)
+
+mysql> use library;
+Database changed
+
+mysql> create table publisher(publisher_id int primary key,name varchar(255),address varchar(255));
+Query OK, 0 rows affected (0.59 sec)
+
+mysql> select * from publisher;
+Empty set (0.03 sec)
+
+mysql> create table book(book_id int primary key,title varchar(255),language_id int,mrp bigint,publisher_id int,published_date date,volume int,status varchar(255));
+Query OK, 0 rows affected (0.82 sec)
+
+mysql> create table author(author_id int primary key,name varchar(255),email varchar(255),ph_no int,status varchar(255));
+Query OK, 0 rows affected (0.49 sec)
+
+mysql> create table member(member_id int primary key,name varchar(255),branch_code int,roll_no int,email varchar(255),date_of_join date,status varchar(255));
+Query OK, 0 rows affected (0.93 sec)
+
+mysql> create table book_issue(issue_id int primary key,date_of_issue date,book_id int,member_id int,expected_date_of_return date);
+Query OK, 0 rows affected (1.61 sec)
+
+mysql> create table book_author(book_id int,author_id int,constraint comp_name primary key(book_id,author_id));
+Query OK, 0 rows affected (0.64 sec)
+
+mysql> create table book_return(issue_id int,actual_date_of_return date,late_days int,late_fee int);
+Query OK, 0 rows affected (1.19 sec)
+
+mysql> create table language(lang_id int primary key,name varchar(255));
+Query OK, 0 rows affected (1.05 sec)
+
+mysql> create table late_fee_rule(from_days int,to_days int,amount int,constraint late_name primary key(from_days,to_days,amount));
+Query OK, 0 rows affected (0.57 sec)
+
