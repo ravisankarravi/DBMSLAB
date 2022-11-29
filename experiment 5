@@ -1,0 +1,33 @@
+mysql> select count(*) from book_author,author where book_author.author_id=author.author_id and author.name='Delna';
++----------+
+| count(*) |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select publisher.name,count(book_id) from book,publisher where book.published_id=publisher.published_id group by book.published_id;
+ERROR 1054 (42S22): Unknown column 'book.published_id' in 'where clause'
+mysql> select publisher.name,count(book_id) from book,publisher where book.publisher_id=publisher.publisher_id group by book.publisher_id;
++---------+----------------+
+| name    | count(book_id) |
++---------+----------------+
+| Abin    |              1 |
+| Aswathy |              1 |
+| Achu    |              1 |
+| Kichu   |              1 |
+| Sachu   |              1 |
++---------+----------------+
+5 rows in set (0.01 sec)
+
+mysql> select author.name from(select author_id from(select author_id,count(book_author.book_id) as count from book_author group by book_author.author_id) as T1 where count > 1) as T2,author where author.author_id=T2.author_id;
++-------+
+| name  |
++-------+
+| Delna |
+| Cibin |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> 
+
