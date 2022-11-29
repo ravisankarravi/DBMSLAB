@@ -1,0 +1,235 @@
+ubuntu@ubuntu-VirtualBox:~$ sudo mysql
+[sudo] password for ubuntu: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.31-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databses
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'databses' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| library            |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use library;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_library |
++-------------------+
+| author            |
+| book              |
+| book_author       |
+| book_issue        |
+| book_return       |
+| language          |
+| late_fee_rule     |
+| member            |
+| publisher         |
++-------------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from author;
++-----------+-------+-----------------+------------+--------+
+| author_id | name  | email           | phno       | status |
++-----------+-------+-----------------+------------+--------+
+|       501 | Delna | delna@gmail.com | 8111866320 | Yes    |
+|       502 | Cibin | cibin@gmail.com | 9526082824 | Yes    |
++-----------+-------+-----------------+------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from book;
++---------+---------------+-------------+------+--------+--------------+----------------+--------+
+| book_id | title         | language_id | mrp  | volume | publisher_id | published_date | status |
++---------+---------------+-------------+------+--------+--------------+----------------+--------+
+|     101 | Hidden World  |           1 |  150 |      5 |            1 | 2020-09-19     | Yes    |
+|     102 | Primal Hunter |           2 |  200 |      1 |            2 | 2000-07-17     | Yes    |
++---------+---------------+-------------+------+--------+--------------+----------------+--------+
+2 rows in set (0.01 sec)
+
+mysql> select * from book_author;
++---------+-----------+
+| book_id | author_id |
++---------+-----------+
+|     101 |       501 |
+|     102 |       502 |
++---------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from book_issue;
++----------+---------+-----------+---------------+-------------------------+--------+
+| issue_id | book_id | member_id | date_of_issue | expected_date_of_return | status |
++----------+---------+-----------+---------------+-------------------------+--------+
+|      101 |     101 |         1 | 2021-01-16    | 2021-03-16              | Yes    |
+|      102 |     102 |         2 | 2021-02-01    | 2021-04-01              | Yes    |
++----------+---------+-----------+---------------+-------------------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from book_return;
++----------+-----------------------+-----------+----------+
+| issue_id | actual_date_of_return | late_days | late_fee |
++----------+-----------------------+-----------+----------+
+|      101 | 2021-03-21            |         5 |       10 |
+|      102 | 2021-04-30            |        29 |      100 |
++----------+-----------------------+-----------+----------+
+2 rows in set (0.02 sec)
+
+mysql> select * from language;
++---------+-----------+
+| lang_id | name      |
++---------+-----------+
+|       1 | English   |
+|       2 | Malayalam |
++---------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from late_fee_rule;
++-----------+---------+--------+
+| from_days | to_days | amount |
++-----------+---------+--------+
+|         0 |       7 |     10 |
+|         7 |      30 |    100 |
++-----------+---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from member;
++-----------+-------+-----------------+--------+--------+-------------+--------------+
+| member_id | name  | email           | rollno | status | branch_code | date_of_join |
++-----------+-------+-----------------+--------+--------+-------------+--------------+
+|         1 | Ganga | ganga@gmail.com |     19 | Yes    |         301 | 2020-06-01   |
+|         2 | Arya  | arya@gmail.com  |     20 | Yes    |         302 | 2019-05-27   |
++-----------+-------+-----------------+--------+--------+-------------+--------------+
+2 rows in set (0.01 sec)
+
+mysql> select * from publisher;
++--------------+---------+---------+
+| publisher_id | name    | address |
++--------------+---------+---------+
+|            1 | Abin    | abc     |
+|            2 | Aswathy | xyz     |
++--------------+---------+---------+
+2 rows in set (0.00 sec)
+
+mysql> desc author;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| author_id | int         | NO   | PRI | NULL    |       |
+| name      | varchar(20) | YES  |     | NULL    |       |
+| email     | varchar(20) | YES  |     | NULL    |       |
+| phno      | bigint      | YES  |     | NULL    |       |
+| status    | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc book;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| book_id        | int         | NO   | PRI | NULL    |       |
+| title          | varchar(20) | YES  |     | NULL    |       |
+| language_id    | int         | YES  |     | NULL    |       |
+| mrp            | bigint      | YES  |     | NULL    |       |
+| volume         | int         | YES  |     | NULL    |       |
+| publisher_id   | int         | YES  |     | NULL    |       |
+| published_date | date        | YES  |     | NULL    |       |
+| status         | varchar(20) | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> desc book_author;
++-----------+------+------+-----+---------+-------+
+| Field     | Type | Null | Key | Default | Extra |
++-----------+------+------+-----+---------+-------+
+| book_id   | int  | NO   | PRI | NULL    |       |
+| author_id | int  | NO   | PRI | NULL    |       |
++-----------+------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> desc book_issue;
++-------------------------+-------------+------+-----+---------+-------+
+| Field                   | Type        | Null | Key | Default | Extra |
++-------------------------+-------------+------+-----+---------+-------+
+| issue_id                | int         | NO   | PRI | NULL    |       |
+| book_id                 | int         | YES  | MUL | NULL    |       |
+| member_id               | int         | YES  |     | NULL    |       |
+| date_of_issue           | date        | YES  |     | NULL    |       |
+| expected_date_of_return | date        | YES  |     | NULL    |       |
+| status                  | varchar(20) | YES  |     | NULL    |       |
++-------------------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> desc book_return;
++-----------------------+------+------+-----+---------+-------+
+| Field                 | Type | Null | Key | Default | Extra |
++-----------------------+------+------+-----+---------+-------+
+| issue_id              | int  | YES  | MUL | NULL    |       |
+| actual_date_of_return | date | YES  |     | NULL    |       |
+| late_days             | int  | YES  |     | NULL    |       |
+| late_fee              | int  | YES  |     | NULL    |       |
++-----------------------+------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc language;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| lang_id | int         | NO   | PRI | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc late_fee_rule;
++-----------+------+------+-----+---------+-------+
+| Field     | Type | Null | Key | Default | Extra |
++-----------+------+------+-----+---------+-------+
+| from_days | int  | NO   | PRI | NULL    |       |
+| to_days   | int  | NO   | PRI | NULL    |       |
+| amount    | int  | NO   | PRI | NULL    |       |
++-----------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> desc member;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| member_id    | int         | NO   | PRI | NULL    |       |
+| name         | varchar(20) | YES  |     | NULL    |       |
+| email        | varchar(20) | YES  |     | NULL    |       |
+| rollno       | int         | YES  |     | NULL    |       |
+| status       | varchar(20) | YES  |     | NULL    |       |
+| branch_code  | int         | YES  |     | NULL    |       |
+| date_of_join | date        | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> desc publisher;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| publisher_id | int         | NO   | PRI | NULL    |       |
+| name         | varchar(20) | YES  |     | NULL    |       |
+| address      | varchar(50) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> 
